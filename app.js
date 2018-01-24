@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 var index = require('./routes/index');
-// var users = require('./routes/users');
 const api = require('./routes/api/index');
 var app = express();
 //const DB_NAME = required('./config.js');
