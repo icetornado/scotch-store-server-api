@@ -21,4 +21,7 @@ const manufacturerSchema = Schema({
 const Product      = model('Product', productSchema);
 const Manufacturer = model('Manufacturer', manufacturerSchema);
 
-module.exports = {Product, Manufacturer};
+module.exports = {
+  Product: Product,
+  Manufacturer: Manufacturer
+};

@@ -3,12 +3,21 @@ var path = require('path');
 // var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-var index = require('./routes/index');
+const app = express();
+const jwt = require('express-jwt');
+const jwks = require('jwks-rsa');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+const index = require('./routes/index');
 const api = require('./routes/api/index');
-var app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+
 //const DB_NAME = required('./config.js');
 // **************************
 
@@ -18,22 +27,23 @@ mongoose.connect('mongodb://admin:password@ds111618.mlab.com:11618/trieu-vue-sho
 
 // ********************
 
-// **************************
-
-// CORS config will be here
-app.all('/*', function(req, res, next) {
-  // CORS headers
-  res.header("Access-Control-Allow-Origin", "*"); // restrict it to the required domain
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  // Set custom headers for CORS
-  res.header('Access-Control-Allow-Headers', 'Content-type,Accept,X-Access-Token,X-Key');
-  if (req.method == 'OPTIONS') {
-    res.status(200).end();
-  } else {
-    next();
-  }
+var jwtCheck = jwt({
+  secret: jwks.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: "https://trieutn.auth0.com/.well-known/jwks.json"
+  }),
+  audience: 'https://scotchvue2store.com',
+  issuer: "https://trieutn.auth0.com/",
+  algorithms: ['RS256']
 });
-// ********************
+
+/* app.use(jwtCheck);
+
+app.get('/authorized', function (req, res) {
+  res.send('Secured Resource');
+}); */
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
