@@ -6,8 +6,6 @@ var cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
 const app = express();
-const jwt = require('express-jwt');
-const jwks = require('jwks-rsa');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -26,24 +24,6 @@ mongoose.connect('mongodb://admin:password@ds111618.mlab.com:11618/trieu-vue-sho
 // mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_URL}`);
 
 // ********************
-
-var jwtCheck = jwt({
-  secret: jwks.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri: "https://trieutn.auth0.com/.well-known/jwks.json"
-  }),
-  audience: 'https://scotchvue2store.com',
-  issuer: "https://trieutn.auth0.com/",
-  algorithms: ['RS256']
-});
-
-/* app.use(jwtCheck);
-
-app.get('/authorized', function (req, res) {
-  res.send('Secured Resource');
-}); */
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
