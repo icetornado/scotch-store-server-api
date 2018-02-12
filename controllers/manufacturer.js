@@ -3,6 +3,7 @@ const Model = require('../model');
 const Product = Model.Product;
 const Manufacturer = Model.Manufacturer;
 
+// TO DOs: add exception handlers
 const manufacturerController = {
   all (req, res) {
     // Returns all manufacturers
